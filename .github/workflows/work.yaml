@@ -38,8 +38,8 @@ jobs:
             - name: Run Script
               run: node jd_sign.js
               
-            - name: 'Send mail'
-              uses: dawidd6/action-send-mail@master
+            - name: Send mail
+              uses: dawidd6/action-send-mail@v2.5.0
               with:
                 server_address: smtp.gmail.com
                 server_port: 465
@@ -48,8 +48,10 @@ jobs:
                 subject: Github Actions京东每日签到
                 body: file://result.txt
                 to: ${{ secrets.MAIL_LIST }}
-                from: Houzhu He Github Actions
+                from: Github Actions
                 content_type: text/html
+                convert_markdown: true
+                attachments: ./result.txt
                 
             - name: Upload result file
               uses: actions/upload-artifact@main
