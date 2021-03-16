@@ -37,6 +37,20 @@ jobs:
               
             - name: Run Script
               run: node jd_sign.js
+              
+            - name: 'Send mail'
+              uses: dawidd6/action-send-mail@master
+              with:
+                server_address: smtp.gmail.com
+                server_port: 465
+                username: ${{ secrets.MAIL_USERNAME }}
+                password: ${{ secrets.MAIL_PASSWORD }}
+                subject: 来自roccoshi的西电每日通知快送 (${{env.REPORT_DATE}})
+
+                body: file://text.html
+                to: ${{ secrets.MAIL_LIST }}
+                from: GitHub Actions
+                content_type: text/html
                 
             - name: Upload result file
               uses: actions/upload-artifact@main
