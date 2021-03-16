@@ -6,7 +6,6 @@ const exec = require('child_process').execSync
 const fs = require('fs')
 const rp = require('request-promise')
 const download = require('download')
-var Email = newFunction();
 
 // 京东Cookie
 const cookie = process.env.JD_COOKIE
@@ -63,6 +62,25 @@ function setupCookie() {
 }
 
 function sendNotificationIfNeed() {
+  var Email = {
+    send: function (a) {
+        return new Promise(function (n, e) {
+            a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send"; var t = JSON.stringify(a);
+            Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e) })
+        })
+    },
+    ajaxPost: function (e, n, t) {
+        var a = Email.createCORSRequest("POST", e); a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () { var e = a.responseText; null != t && t(e) }, a.send(n)
+    },
+    ajax: function (e, n) {
+        var t = Email.createCORSRequest("GET", e); t.onload = function () { var e = t.responseText; null != n && n(e) }, t.send()
+    },
+    createCORSRequest: function (e, n) {
+        var t = new XMLHttpRequest;
+        return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t
+    }
+  };
+  
   Email.send({
       Host : "smtp.gmail.com",
       Username : "hehouzhu@gmail.com",
@@ -111,38 +129,6 @@ function sendNotificationIfNeed() {
     console.log("通知发送失败，任务中断！")
     fs.writeFileSync(error_path, err, 'utf8')
   })
-}
-
-function newFunction() {
-    return {
-        send: function (a) {
-            return new Promise(function (n, e) {
-                a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send";
-                var t = JSON.stringify(a);
-                Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e); });
-            });
-        },
-        ajaxPost: function (e, n, t) {
-            var a = Email.createCORSRequest("POST", e);
-            a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
-                a.onload = function () {
-                    var e = a.responseText; 
-                    null != t && t(e);
-                },
-                a.send(n);
-        },
-        ajax: function (e, n) {
-            var t = Email.createCORSRequest("GET", e);
-            t.onload = function () {
-                var e = t.responseText;
-                null != n && n(e);
-            }, t.send();
-        },
-        createCORSRequest: function (e, n) {
-            var t = new XMLHttpRequest;
-            return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t;
-        }
-    };
 }
 
 function main() {
