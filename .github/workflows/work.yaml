@@ -8,8 +8,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: 1 0 * * *
-    - cron: 22 8 * * *
+    - cron: 2 22 * * *
+    - cron: 3 23 * * *
   watch:
     types: started
     
@@ -17,7 +17,6 @@ env:
   JD_COOKIE: ${{ secrets.JD_COOKIE }}
   JD_DUAL_COOKIE: ${{ secrets.JD_DUAL_COOKIE }}
   PUSH_KEY: ${{ secrets.PUSH_KEY }}
-  UPLOAD_BESULT_DIR: true
 
 jobs:
     build:
