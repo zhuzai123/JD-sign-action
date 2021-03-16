@@ -41,8 +41,7 @@ jobs:
             - name: 'Get Date'
               run: echo "ACTION_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
               
-            - name: 'Get Date'
-              run: echo "::set-env name=DATE::$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')"
+
       
             - name: Send mail
               uses: dawidd6/action-send-mail@v2.5.0
