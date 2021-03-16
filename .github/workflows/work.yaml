@@ -41,8 +41,6 @@ jobs:
             - name: 'Get Date'
               run: echo "ACTION_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
               
-
-      
             - name: Send mail
               uses: dawidd6/action-send-mail@v2.5.0
               with:
@@ -50,7 +48,7 @@ jobs:
                 server_port: 465
                 username: ${{ secrets.MAIL_USERNAME }}
                 password: ${{ secrets.MAIL_PASSWORD }}
-                subject: Github Actions京东每日签到(${{ env.DATE }} | ${{ env.ACTION_DATE }})
+                subject: Github Actions京东每日签到(${{ env.ACTION_DATE }})
                 body: file://result.txt
                 to: ${{ secrets.MAIL_LIST }}
                 from: Github Actions
